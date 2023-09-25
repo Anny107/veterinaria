@@ -4,7 +4,7 @@ require_once 'Conexion.php';
 
 class Mascota extends Conexion{
 
-  private $conexion;
+  private $connection;
 
   public function __CONSTRUCT(){
     $this->connection = parent::getConexion();
@@ -32,5 +32,16 @@ class Mascota extends Conexion{
       $respuesta["mensaje"] = "No se logro guardar. Codigo ".$e->getCode();
     }
     return $respuesta;
+  }
+
+  public function mostrarMascota($idmascota){
+    try{
+      $consulta = $this->connection->prepare("CALL spu_detalleMascota(?)");
+      $consulta->execute(array($idmascota));
+      return $consulta->fetchaAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
   }
 }

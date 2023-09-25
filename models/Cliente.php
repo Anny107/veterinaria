@@ -4,7 +4,7 @@ require_once 'Conexion.php';
 
 class Cliente extends Conexion{
 
-  private $conexion;
+  private $connection;
 
   public function __CONSTRUCT(){
     $this->connection = parent::getConexion();
@@ -35,6 +35,17 @@ class Cliente extends Conexion{
   public function buscarCliente($dni){
     try{
       $consulta = $this->connection->prepare("CALL spu_buscarClientes(?)");
+      $consulta->execute(array($dni));
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function login($dni){
+    try{
+      $consulta = $this->connection->prepare("CALL spu_loginCliente(?)");
       $consulta->execute(array($dni));
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

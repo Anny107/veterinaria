@@ -15,8 +15,8 @@ CREATE TABLE clientes
 
 INSERT INTO clientes(apellidos,nombres,dni,claveAcceso) VALUES 
 ('Sanchez Mesias','Daniel','45693247','123456'),
-('Lopez Cardenas','Josue','77693211','654321'),
-('Cabrera Napa','Anny','71788436','987654');
+('Lopez Cardenas','Josue','77693211','123456'),
+('Cabrera Napa','Anny','71788436','123456');
 
 SELECT * FROM clientes;
 
@@ -25,7 +25,8 @@ CREATE TABLE animales
 	idanimal			INT AUTO_INCREMENT PRIMARY KEY,
 	nombreanimal	VARCHAR(50)		NOT NULL,
 	create_at		DATETIME 		NOT NULL DEFAULT NOW(),
-	update_at		DATETIME 		NULL
+	update_at		DATETIME 		NULL,
+	CONSTRAINT uk_nombreanimal UNIQUE(nombreanimal)
 )ENGINE=INNODB;
 
 INSERT INTO animales(nombreanimal) VALUES
@@ -38,11 +39,12 @@ SELECT * FROM animales;
 CREATE TABLE razas
 (
 	idraza		INT AUTO_INCREMENT PRIMARY KEY,
-	idanimal		INT 				NOT NULL,
+	idanimal	INT 				NOT NULL,
 	nombreraza	VARCHAR(50) 	NOT NULL,
 	create_at	DATETIME			NOT NULL DEFAULT NOW(),
 	update_at	DATETIME 		NULL,
-	CONSTRAINT fk_idanimal_razas FOREIGN KEY (idanimal) REFERENCES animales(idanimal)
+	CONSTRAINT fk_idanimal_razas FOREIGN KEY (idanimal) REFERENCES animales(idanimal),
+	CONSTRAINT uk_nombreraza UNIQUE(nombreraza)
 )ENGINE=INNODB;
 
 INSERT INTO razas(idanimal,nombreraza) VALUES
@@ -102,7 +104,7 @@ BEGIN
 	WHERE clientes.dni = _dni;
 END$$
 
-CALL spu_buscarClientes('99887766');
+CALL spu_buscarClientes('71788436');
 
 -- Mostrar detalle de mascotas
 DELIMITER $$
@@ -138,6 +140,7 @@ BEGIN
 END$$
 
 CALL spu_registrarCliente('Jimenez Yataco','Camila','33669911','123456')
+
 -- Registrar mascota
 DELIMITER $$
 CREATE PROCEDURE spu_registrarMascota
@@ -155,5 +158,40 @@ BEGIN
 	(_idcliente,_idraza,_nombre,_fotografia,_color,_genero);
 END$$
 
-CALL spu_registrarMascota(5,9,'Marlin','','Naranja','Macho')
+CALL spu_registrarMascota(4,9,'Marlin','pez.jpg','Naranja','Macho');
+
+-- Listar animales
+DELIMITER $$
+CREATE PROCEDURE spu_listar_animales()
+BEGIN
+	SELECT *
+	FROM animales;
+END $$
+
+-- Filtro para las razas
+DELIMITER $$
+CREATE PROCEDURE spu_filtroRaza
+(
+  IN _idanimal INT
+)
+BEGIN
+	SELECT *
+	FROM razas
+	WHERE idanimal = _idanimal;
+END $$
 -- Login
+
+DELIMITER $$
+CREATE PROCEDURE spu_loginCliente
+(
+ IN _dni CHAR(8)
+)
+BEGIN
+	SELECT * FROM clientes
+	WHERE dni = _dni;
+END$$
+
+CALL spu_loginCliente("71788436");
+
+-- Actualizar contraseña de clientes
+UPDATE clientes SET claveAcceso = "$2y$10$Lh.FEBuJKjM/fQYxT2j3vO7g2mZZF7HRvgplu.zchvnOvviGJI2Ki";
