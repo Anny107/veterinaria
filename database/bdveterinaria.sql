@@ -35,7 +35,7 @@ INSERT INTO animales(nombreanimal) VALUES
 ('Gato'),
 ('Peces');
 
-SELECT * FROM animales;
+-- SELECT * FROM animales;
 
 CREATE TABLE razas
 (
