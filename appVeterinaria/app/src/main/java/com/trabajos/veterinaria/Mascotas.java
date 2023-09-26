@@ -255,5 +255,7 @@ public class Mascotas extends AppCompatActivity {
         ArrayAdapter<Raza> razaArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, raza);
         razaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRaza.setAdapter(razaArrayAdapter);
+
+        //tIENES QUE BORRAR ESTE COMENTARIO:)
     }
 }
