@@ -20,7 +20,7 @@ class Animal extends Conexion{
             die($e->getCode());
         }
     }
-    public function fitrarRaza($idanimal){
+    public function filtrarRaza($idanimal){
         try{
             $consulta = $this->connection->prepare("CALL spu_filtroRaza(?)");
             $consulta->execute(

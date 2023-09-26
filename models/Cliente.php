@@ -16,7 +16,7 @@ class Cliente extends Conexion{
       "mensaje" => ""
     ];
     try{
-      $consulta = $this->connection->prepare("CALL spu_registrarCliente(?,?,?,?)");
+      $consulta = $this->connection->prepare("CALL spu_registrar_Cliente(?,?,?,?)");
       $respuesta["status"] = $consulta->execute(
         array(
           $datos["apellidos"],
@@ -32,22 +32,11 @@ class Cliente extends Conexion{
     return $respuesta;
   }
 
-  public function buscarCliente($dni){
-    try{
-      $consulta = $this->connection->prepare("CALL spu_buscarClientes(?)");
-      $consulta->execute(array($dni));
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-  }
-
   public function login($dni){
     try{
-      $consulta = $this->connection->prepare("CALL spu_loginCliente(?)");
+      $consulta = $this->connection->prepare("CALL spu_login_cliente(?)");
       $consulta->execute(array($dni));
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
       die($e->getMessage());

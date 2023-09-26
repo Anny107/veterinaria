@@ -18,8 +18,18 @@ if(isset($_POST['operacion'])){
       ];
       echo json_encode($mascota->registrarMascota($datos));
       break;
-
-      case 'mostrarMascota':
-        echo json_encode($mascota->mostrarMascota(['idmascota' => $_POST['idmascota']]));
+  }
+}
+if(isset($_GET['operacion'])){
+  switch($_GET['operacion']){
+    case 'listarMascotas':
+      $datos = $mascota->listarMascotas($_GET["idcliente"]);
+      echo json_encode($datos);
+      break;
+      
+    case 'buscarMascota':
+      $datos = $mascota->buscarMascota($_GET["idmascota"]);
+      echo json_encode($datos);
+      break;
   }
 }

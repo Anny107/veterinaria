@@ -7,8 +7,8 @@ if(isset($_GET['operacion'])){
         case 'listarAnimales':
             echo json_encode($raza->listarAnimales());
             break;
-        case 'fitrarRaza':
-            $data = $raza->fitrarRaza($_GET['idanimal']);
+        case 'filtrarRaza':
+            $data = $raza->filtrarRaza($_GET['idanimal']);
             echo json_encode($data);
             break;
     }

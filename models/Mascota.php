@@ -34,11 +34,25 @@ class Mascota extends Conexion{
     return $respuesta;
   }
 
-  public function mostrarMascota($idmascota){
+  public function buscarMascota($idmascota = 0){
     try{
-      $consulta = $this->connection->prepare("CALL spu_detalleMascota(?)");
+      $consulta = $this->connection->prepare("CALL spu_detalle_Mascota(?)");
       $consulta->execute(array($idmascota));
       return $consulta->fetchaAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function listarMascotas($idcliente = 0){
+    try{
+      $consulta = $this->connection->prepare("CALL spu_listar_mascotas_clientes(?)");
+      $consulta->execute(
+        array(
+          $idcliente
+        ));
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
       die($e->getMessage());

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -28,6 +30,8 @@ public class Cliente extends AppCompatActivity {
     EditText etApellidos, etNombres, etDNI, etClave;
     Button btGuardarCliente;
     String apellidos, nombres, dni, clave;
+
+    boolean iniciarsesion = false;
     final String URL = "http://192.168.18.20/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +72,15 @@ public class Cliente extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                limpiarCajas();
-                etApellidos.requestFocus();
-                mostrarMensaje("Registro guardado");
+                if(response.equalsIgnoreCase("")){
+                    mostrarMensaje("Registrado correctamente");
+                    etApellidos.requestFocus();
+                    iniciarsesion=true;
+                    if(iniciarsesion){
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        startActivity(intent);
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -90,13 +100,8 @@ public class Cliente extends AppCompatActivity {
                 return  parametros;
             }
         };
-        Volley.newRequestQueue(getApplicationContext()).add(stringRequest);
-    }
-    private void limpiarCajas(){
-        etApellidos.setText("");
-        etNombres.setText("");
-        etDNI.setText("");
-        etClave.setText("");
+        RequestQueue requestQueue =Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
     private void mostrarPregunta(){
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);

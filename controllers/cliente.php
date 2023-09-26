@@ -3,51 +3,55 @@
 require_once '../models/Cliente.php';
 $cliente = new Cliente();
 
-if(isset($_POST['operacion'])){
+if(isset($_GET['operacion'])){
 
-  switch($_POST['operacion']){
+  switch($_GET['operacion']){
     case 'registrarCliente':
       
-      $claveOriginal = $_POST['claveAcceso'];
-      $claveEncriptada = password_hash($claveOriginal, PASSWORD_BCRYPT);
-
       $datos = [
-        "apellidos"   => $_POST['apellidos'],
-        "nombres"     => $_POST['nombres'],
-        "dni"         => $_POST['dni'],
-        "claveAcceso" => $_POST['claveAcceso']
+        "apellidos"   => $_GET['apellidos'],
+        "nombres"     => $_GET['nombres'],
+        "dni"         => $_GET['dni'],
+        "claveAcceso" => password_hash($_GET['claveAcceso'], PASSWORD_BCRYPT)
       ];
-      echo json_encode($cliente->registrarCliente($datos));
+      $cliente->registrarCliente($datos);
       break;
 
     case 'login':
       $resultado = [
         "login"     => false,
-        "apellidos" => "",
-        "nombres"   => "",
-        "mensaje"   => ""
+        "mensaje"   => "",
+        "idcliente" => 0
       ];
 
-      $data = $cliente->login($_POST['dni']);
+      $data = $cliente->login($_GET['dni']);
       
       if($data){
-        $claveIngresada = $_POST['claveAcceso'];
+        $claveIngresada = $_GET['claveAcceso'];
         if(password_verify($claveIngresada, $data["claveAcceso"])){
-          $resultado['login'] = true;
-          $resultado['apellidos'] = $data['apellidos'];
-          $resultado['nombres'] = $data['nombres'];
+          $resultado["login"] = true;
+          $resultado["idcliente"] = $data["idcliente"];
         }else{
-          $resultado['mensaje'] = 'Contraseña incorrecta';
+          $resultado["mensaje"] = "Contraseña incorrecta";
         }
       }else{
-        $resultado['mensaje'] = 'No existe el usuario';
+        $resultado["mensaje"] = "No existe el usuario";
       }
       echo json_encode($resultado);
       break;
+  }
+}
 
-    case 'buscarCliente':
-      echo json_encode($cliente->buscarCliente($_POST['dni']));
+if(isset($_POST['operacion'])){
+  switch($_POST['operacion']){
+    case 'registrarCliente':
+      $datos = [
+        "apellidos"   => $_POST['apellidos'],
+        "nombres"     => $_POST['nombres'],
+        "dni"         => $_POST['dni'],
+        "claveAcceso" => password_hash($_POST['claveAcceso'], PASSWORD_BCRYPT)
+      ];
+      $cliente->registrarCliente($datos);
       break;
   }
-  
 }
