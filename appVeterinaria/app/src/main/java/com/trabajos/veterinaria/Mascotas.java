@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Mascotas extends AppCompatActivity {
-
     Spinner spAnimal, spRaza;
     EditText etNombreMascota, etColorMascota;
     Button btnRegistrarMascota;
@@ -45,8 +44,8 @@ public class Mascotas extends AppCompatActivity {
     RadioButton rbMacho, rbHembra;
     int idcliente, idraza;
     String nombre, color, genero;
-    final String URL = "http://192.168.18.20/appveterinaria/controllers/animal.php";
-    final String URL2 = "http://192.168.18.20/appveterinaria/controllers/mascota.php";
+    final String URLAnimal = "http://192.168.18.210/veterinaria/controllers/animal.php";
+    final String URL2 = "http://192.168.18.210/appveterinaria/controllers/mascota.php";
     private ArrayList<Animal> animal = new ArrayList<>();
     private ArrayList<Raza> raza = new ArrayList<>();
     @Override
@@ -61,26 +60,8 @@ public class Mascotas extends AppCompatActivity {
         }
         listadoAnimales();
 
-        spAnimal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i > 0){
-                    Animal selecionado = animal.get(i);
-                    int idanimal = selecionado.getValue();
-                    Log.i("idseleccionado", String.valueOf(idanimal));
-                    razasListar(idanimal);
-                }else{
-                    mostrarMensaje("Seleccione un animal");
-                }
-            }
-        });
-        spRaza.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Raza selecionada = raza.get(i);
-                idraza = selecionada.getValue();
-            }
-        });
+
+
         btnRegistrarMascota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,7 +132,7 @@ public class Mascotas extends AppCompatActivity {
                 parametros.put("idcliente", String.valueOf(idcliente));
                 parametros.put("idraza", String.valueOf(idraza));
                 parametros.put("nombre", nombre);
-                parametros.put("fotografia", "");
+                parametros.put("fotografia", null);
                 parametros.put("color", color);
                 parametros.put("genero", genero);
 
@@ -162,41 +143,9 @@ public class Mascotas extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
-    private void razasListar(int idanimal){
-        Uri.Builder nuevaURL = Uri.parse(URL).buildUpon();
-        nuevaURL.appendQueryParameter("operacion", "filtrarRaza");
-        nuevaURL.appendQueryParameter("idanimal", String.valueOf(idanimal));
-        if (raza.isEmpty()) {
-            raza.add(new Raza(0, "Seleccione"));
-        }
-        String URLActualizada = nuevaURL.build().toString();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URLActualizada, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for(int i=0; i < response.length(); i++){
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        int value = jsonObject.getInt("idraza");
-                        String item = jsonObject.getString("nombreRaza");
-                        raza.add(new Raza(value, item));
-                    }catch (JSONException e){
-                        Log.d("Error spRazas",e.toString());
-                    }
-                }
-                ArrayAdapter<Raza> adapter = new ArrayAdapter<>(Mascotas.this, android.R.layout.simple_spinner_item, raza);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spRaza.setAdapter(adapter);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
-            }
-        });
-        Volley.newRequestQueue(this).add(jsonArrayRequest);
-    }
+
     private void listadoAnimales(){
-        Uri.Builder nuevaURL = Uri.parse(URL).buildUpon();
+        Uri.Builder nuevaURL = Uri.parse(URLAnimal).buildUpon();
         nuevaURL.appendQueryParameter("operacion", "listarAnimales");
         String URLActualizada = nuevaURL.build().toString();
         if (animal.isEmpty()) {
@@ -206,21 +155,24 @@ public class Mascotas extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
 
-                for(int i=0; i < response.length(); i++){
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        int value = jsonObject.getInt("idanimal");
-                        String item = jsonObject.getString("nombreamimal");
-                        Log.d("animales", jsonObject.toString());
+                if(response.length() > 1){
+                    for(int i=0; i < response.length(); i++){
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            int value = jsonObject.getInt("idanimal");
+                            String item = jsonObject.getString("nombreamimal");
+                            Log.d("animales", jsonObject.toString());
 
-                        animal.add(new Animal(value, item));
-                    }catch (JSONException e){
-                        Log.d("Error",e.toString());
+                            animal.add(new Animal(value, item));
+                        }catch (JSONException e){
+                            Log.d("Error",e.toString());
+                        }
                     }
+                    ArrayAdapter<Animal> adapter = new ArrayAdapter<>(Mascotas.this, android.R.layout.simple_spinner_item, animal);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spAnimal.setAdapter(adapter);
                 }
-                ArrayAdapter<Animal> adapter = new ArrayAdapter<>(Mascotas.this, android.R.layout.simple_spinner_item, animal);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spAnimal.setAdapter(adapter);
+
             }
         }, new Response.ErrorListener() {
             @Override

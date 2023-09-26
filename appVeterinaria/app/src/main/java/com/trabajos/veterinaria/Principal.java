@@ -24,7 +24,9 @@ public class Principal extends AppCompatActivity {
         btAbrirActivityMascota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirActivitys(Mascotas.class);
+                //abrirActivitys(Mascotas.class);
+                Intent intent = new Intent(getApplicationContext(), Mascotas.class);
+                startActivity(intent);
             }
         });
     }

@@ -22,7 +22,7 @@ class Animal extends Conexion{
     }
     public function filtrarRaza($idanimal){
         try{
-            $consulta = $this->connection->prepare("CALL spu_filtroRaza(?)");
+            $consulta = $this->connection->prepare("CALL spu_filtrar_Raza(?)");
             $consulta->execute(
                 array($idanimal)
             );

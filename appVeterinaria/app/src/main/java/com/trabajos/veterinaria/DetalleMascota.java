@@ -23,8 +23,8 @@ public class DetalleMascota extends AppCompatActivity {
     TextView tvNombre,tvAnimal, tvRaza, tvColor, tvGenero;
     ImageView ivImagenMascota;
     int idmascota;
-    final String URL = "http://192.168.18.20/veterinaria/controllers/mascota.php";
-    final String imagenURL = "http://192.168.18.20/veterinaria/imagenes/";
+    final String URL = "http://192.168.18.210/veterinaria/controllers/mascota.php";
+    final String imagenURL = "http://192.168.18.210/veterinaria/imagenes/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

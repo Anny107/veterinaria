@@ -91,6 +91,8 @@ BEGIN
 	WHERE idanimal = _idanimal;
 END $$
 
+CALL spu_filtrar_Raza(1);
+
 -- Login
 DELIMITER $$
 CREATE PROCEDURE spu_login_cliente

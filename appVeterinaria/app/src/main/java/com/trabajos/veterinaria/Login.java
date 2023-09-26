@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     EditText etDni, etClave;
     String dni, clave;
     int idcliente;
-    final String URL = "http://192.168.18.20/veterinaria/controllers/cliente.php";
+    final String URL = "http://192.168.18.210/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +89,7 @@ public class Login extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                Log.e("Error no hay respuesta", error.toString());
             }
         });
         Volley.newRequestQueue(this).add(jsonObjectRequest);

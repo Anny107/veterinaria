@@ -31,7 +31,7 @@ public class Listar extends AppCompatActivity {
     private List<Integer> id = new ArrayList<>();
     int idcliente;
     private CustomAdapter customAdapter;
-    final String URL = "http://192.168.18.20/veterinaria/controllers/mascota.php";
+    final String URL = "http://192.168.18.210/veterinaria/controllers/mascota.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
