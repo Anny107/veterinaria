@@ -27,7 +27,6 @@ import java.util.List;
 public class Listar extends AppCompatActivity {
 
     ListView lvMascotas;
-    Button btRegistrarMascota;
     private List<String> dataList = new ArrayList<>();
     private List<Integer> id = new ArrayList<>();
     int idcliente;
@@ -48,12 +47,6 @@ public class Listar extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 abrirDetalle(id.get(position));
-            }
-        });
-        btRegistrarMascota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirActivity(idcliente);
             }
         });
     }
@@ -97,14 +90,8 @@ public class Listar extends AppCompatActivity {
         });
         Volley.newRequestQueue(this).add(jsonArrayRequest);
     }
-    private void abrirActivity(int idcliente){
-        Intent intent = new Intent(getApplicationContext(), Mascotas.class);
-        intent.putExtra("idcliente", idcliente);
-        startActivity(intent);
-    }
     private void loadUI(){
         lvMascotas = findViewById(R.id.lvMascotas);
-        btRegistrarMascota = findViewById(R.id.btnAbrirRegistroMascota);
     }
 
 }

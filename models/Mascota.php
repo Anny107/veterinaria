@@ -38,7 +38,7 @@ class Mascota extends Conexion{
     try{
       $consulta = $this->connection->prepare("CALL spu_detalle_Mascota(?)");
       $consulta->execute(array($idmascota));
-      return $consulta->fetchaAll(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
       die($e->getMessage());

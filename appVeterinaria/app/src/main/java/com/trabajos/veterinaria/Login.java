@@ -72,7 +72,7 @@ public class Login extends AppCompatActivity {
                             mostrarMensaje("Inicio exitoso");
                             Toast.makeText(getApplicationContext(), "Iniciando sesión...", Toast.LENGTH_SHORT).show();
                             idcliente = response.getInt("idcliente");
-                            Intent intent = new Intent(getApplicationContext(), Listar.class);
+                            Intent intent = new Intent(getApplicationContext(), Principal.class);
                             intent.putExtra("idcliente",idcliente);
                             startActivity(intent);
                         }else{
