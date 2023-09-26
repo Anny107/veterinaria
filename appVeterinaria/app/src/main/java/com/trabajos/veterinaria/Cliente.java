@@ -32,7 +32,7 @@ public class Cliente extends AppCompatActivity {
     String apellidos, nombres, dni, clave;
 
     boolean iniciarsesion = false;
-    final String URL = "http://192.168.18.210/veterinaria/controllers/cliente.php";
+    final String URL = "http://192.168.59.186/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

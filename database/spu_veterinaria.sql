@@ -34,7 +34,7 @@ BEGIN
 	WHERE mascotas.idmascota = _idmascota;
 END$$
 
-CALL spu_detalle_Mascota(3)
+CALL spu_detalle_Mascota(3);
 
 -- Registrar cliente
 DELIMITER $$

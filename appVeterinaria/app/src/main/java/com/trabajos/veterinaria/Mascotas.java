@@ -44,8 +44,8 @@ public class Mascotas extends AppCompatActivity {
     RadioButton rbMacho, rbHembra;
     int idcliente, idraza;
     String nombre, color, genero;
-    final String URLAnimal = "http://192.168.18.210/veterinaria/controllers/animal.php";
-    final String URL2 = "http://192.168.18.210/appveterinaria/controllers/mascota.php";
+    final String URLAnimal = "http://192.168.59.186/veterinaria/controllers/animal.php";
+    final String URLMascota = "http://192.168.59.186/veterinaria/controllers/mascota.php";
     private ArrayList<Animal> animal = new ArrayList<>();
     private ArrayList<Raza> raza = new ArrayList<>();
     @Override
@@ -59,7 +59,21 @@ public class Mascotas extends AppCompatActivity {
             idcliente = datos.getInt("idcliente");
         }
         listadoAnimales();
+        spAnimal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position>0){
+                    Animal animalSelect = animal.get(position);
+                    int idanimal = animalSelect.getValue();
+                    razasListar(idanimal);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         btnRegistrarMascota.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +121,7 @@ public class Mascotas extends AppCompatActivity {
         }else if(rgGenero.getCheckedRadioButtonId() == R.id.rbHembra){
             genero = rbHembra.getText().toString();
         }
-        Toast.makeText(getApplicationContext(), genero + String.valueOf(idcliente) + String.valueOf(idraza), Toast.LENGTH_SHORT).show();
-        StringRequest request = new StringRequest(Request.Method.POST, URL2, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, URLMascota, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if(response.equalsIgnoreCase("")){
@@ -121,7 +134,7 @@ public class Mascotas extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
-                Log.d("Error", error.toString());
+                Log.d("Error de volley", error.toString());
             }
         }){
             @Nullable
@@ -132,7 +145,7 @@ public class Mascotas extends AppCompatActivity {
                 parametros.put("idcliente", String.valueOf(idcliente));
                 parametros.put("idraza", String.valueOf(idraza));
                 parametros.put("nombre", nombre);
-                parametros.put("fotografia", null);
+                parametros.put("fotografia", "");
                 parametros.put("color", color);
                 parametros.put("genero", genero);
 
@@ -156,16 +169,18 @@ public class Mascotas extends AppCompatActivity {
             public void onResponse(JSONArray response) {
 
                 if(response.length() > 1){
-                    for(int i=0; i < response.length(); i++){
+                    Log.d("animales", response.toString());
+                   for(int i=0; i < response.length(); i++){
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
+                            //Log.i("Datos", jsonObject.getString("nombreanimal"));
                             int value = jsonObject.getInt("idanimal");
-                            String item = jsonObject.getString("nombreamimal");
-                            Log.d("animales", jsonObject.toString());
+                            String item = jsonObject.getString("nombreanimal");
+                            //Log.d("animales", jsonObject.toString());
 
                             animal.add(new Animal(value, item));
                         }catch (JSONException e){
-                            Log.d("Error",e.toString());
+                            Log.d("Error json",e.toString());
                         }
                     }
                     ArrayAdapter<Animal> adapter = new ArrayAdapter<>(Mascotas.this, android.R.layout.simple_spinner_item, animal);
@@ -184,8 +199,45 @@ public class Mascotas extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonArrayRequest);
 
     }
-    private  void mostrarMensaje(String mensaje){
-        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+
+    private void razasListar(int idanimal){
+        Uri.Builder nuevaURL = Uri.parse(URLAnimal).buildUpon();
+        nuevaURL.appendQueryParameter("operacion", "filtrarRaza");
+        nuevaURL.appendQueryParameter("idanimal", String.valueOf(idanimal));
+        String URLActualizada = nuevaURL.build().toString();
+        if (raza.isEmpty()) {
+            raza.add(new Raza(0, "Seleccione"));
+        }
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URLActualizada, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                if(response.length() > 1){
+                    for(int i=0; i < response.length(); i++){
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            int value = jsonObject.getInt("idraza");
+                            String item = jsonObject.getString("nombreraza");
+                            raza.add(new Raza(value, item));
+                        }catch (JSONException e){
+                            Log.d("Error json",e.toString());
+                        }
+                    }
+                    ArrayAdapter<Raza> adapter = new ArrayAdapter<>(Mascotas.this, android.R.layout.simple_spinner_item, raza);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spRaza.setAdapter(adapter);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        }
+        );
+        Volley.newRequestQueue(this).add(jsonArrayRequest);
+
     }
     private void loadUI(){
         //Radio group y Radio Button

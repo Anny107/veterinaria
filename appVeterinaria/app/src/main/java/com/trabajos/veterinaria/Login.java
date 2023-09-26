@@ -31,8 +31,8 @@ public class Login extends AppCompatActivity {
     Button btIniciarSesion, btRegistro;
     EditText etDni, etClave;
     String dni, clave;
-    int idcliente;
-    final String URL = "http://192.168.18.210/veterinaria/controllers/cliente.php";
+    int cliente;
+    final String URL = "http://192.168.59.186/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +69,11 @@ public class Login extends AppCompatActivity {
                     try{
                         Log.e("Respuesta", response.toString());
                         if (response.getBoolean("login")){
-                            mostrarMensaje("Inicio exitoso");
-                            Toast.makeText(getApplicationContext(), "Iniciando sesión...", Toast.LENGTH_SHORT).show();
-                            idcliente = response.getInt("idcliente");
+                            //mostrarMensaje("Inicio exitoso");
+                            cliente = response.getInt("idcliente");
+                            Log.e("Respuesta", String.valueOf(response.getInt("idcliente")));
                             Intent intent = new Intent(getApplicationContext(), Principal.class);
-                            intent.putExtra("idcliente",idcliente);
+                            intent.putExtra("idcliente",cliente);
                             startActivity(intent);
                         }else{
                             Toast.makeText(getApplicationContext(), response.getString("mensaje"), Toast.LENGTH_SHORT).show();
