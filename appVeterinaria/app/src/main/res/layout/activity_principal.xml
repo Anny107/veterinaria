@@ -8,9 +8,10 @@
 
     <Button
         android:id="@+id/btVerMascotas"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:padding="15dp"
         android:text="Ver mascotas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +21,24 @@
     <Button
         android:id="@+id/btAbrirActivityMascota"
         android:text="Registrar mascota"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btVerMascotas"
+        android:padding="15dp"
         app:layout_constraintVertical_bias="0.20" />
+
+    <Button
+        android:id="@+id/btCerraSesion"
+        android:text="Cerrar sesión"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btVerMascotas"
+        android:padding="15dp"
+        app:layout_constraintVertical_bias="0.90" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,7 +32,7 @@ public class Listar extends AppCompatActivity {
     private List<Integer> id = new ArrayList<>();
     int idcliente;
     private CustomAdapter customAdapter;
-    final String URL = "http://192.168.18.210/veterinaria/controllers/mascota.php";
+    final String URL = "http://192.168.18.20/veterinaria/controllers/mascota.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class Listar extends AppCompatActivity {
         if(datos != null){
             idcliente = datos.getInt("idcliente");
             traerDatos(idcliente);
+            Log.e("Respuesta", String.valueOf(idcliente));
         }
         lvMascotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

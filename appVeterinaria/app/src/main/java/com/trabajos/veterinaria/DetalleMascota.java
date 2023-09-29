@@ -23,8 +23,8 @@ public class DetalleMascota extends AppCompatActivity {
     TextView tvNombre,tvAnimal, tvRaza, tvColor, tvGenero;
     ImageView ivImagenMascota;
     int idmascota;
-    final String URL = "http://192.168.18.210/veterinaria/controllers/mascota.php";
-    final String imagenURL = "http://192.168.18.210/veterinaria/imagenes/";
+    final String URL = "http://192.168.18.20/veterinaria/controllers/mascota.php";
+    final String imagenURL = "http://192.168.18.20/veterinaria/imagenes/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +46,12 @@ public class DetalleMascota extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("datos", response.getString("fotografia"));
                     tvNombre.setText(response.getString("nombre"));
-                    tvAnimal.setText(response.getString("nombreamimal"));
-                    tvRaza.setText(response.getString("nombreRaza"));
+                    tvAnimal.setText(response.getString("nombreanimal"));
+                    tvRaza.setText(response.getString("nombreraza"));
+                    obtenerImagen(response.getString("fotografia"));
                     tvColor.setText(response.getString("color"));
                     tvGenero.setText(response.getString("genero"));
-                    obtenerImagen(response.getString("fotografia"));
                 }catch (Exception e){
                     e.printStackTrace();
                 }

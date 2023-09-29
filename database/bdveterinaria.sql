@@ -10,7 +10,6 @@ CREATE TABLE clientes
 	claveAcceso	VARCHAR(200)	NOT NULL,
 	create_at	DATETIME 		NOT NULL DEFAULT NOW(),
 	update_at	DATETIME			NULL,
-	estado		CHAR(1)			NOT NULL DEFAULT "1",
 	CONSTRAINT uk_dni_cli UNIQUE(dni)
 )ENGINE=INNODB;
 
