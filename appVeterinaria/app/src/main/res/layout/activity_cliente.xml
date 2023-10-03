@@ -8,14 +8,24 @@
     android:padding="25dp"
     tools:context=".Cliente">
 
-    <TextView
-        android:text="Registrar cliente"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:textSize="30dp"
-        android:layout_marginBottom="20dp"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="120dp"
+        android:visibility="visible"
+        app:srcCompat="@drawable/logo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Registro cliente"
+        android:textAlignment="center"
+        android:textSize="35dp" />
     <EditText
         android:id="@+id/etApellidos"
         android:hint="Apellidos"
@@ -49,6 +59,8 @@
     <Button
         android:id="@+id/btGuardarCliente"
         android:text="Guardar"
+        android:backgroundTint="#6D88C5"
+        android:textSize="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

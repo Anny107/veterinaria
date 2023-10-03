@@ -8,10 +8,19 @@
     android:padding="20dp"
     tools:context=".Mascotas">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:visibility="visible"
+        app:srcCompat="@drawable/logo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="123dp" />
     <TextView
         android:text="Registrar mascota"
-        android:textSize="25dp"
-        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed"
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -56,15 +65,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </RadioGroup>
-    <ImageView
-        android:id="@+id/ivImagen"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnRegistrarMascota"
         android:text="Registrar mascota"
+        android:backgroundTint="#6D88C5"
+        android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -160,7 +160,7 @@ public class Mascotas extends AppCompatActivity {
                 return parametros;
             }
         };
-        //Enviamos la solicitud al WS
+        //Envar la solicitud al WS
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
@@ -186,10 +186,8 @@ public class Mascotas extends AppCompatActivity {
                    for(int i=0; i < response.length(); i++){
                         try {
                             JSONObject jsonObject = response.getJSONObject(i);
-                            //Log.i("Datos", jsonObject.getString("nombreanimal"));
                             int value = jsonObject.getInt("idanimal");
                             String item = jsonObject.getString("nombreanimal");
-                            //Log.d("animales", jsonObject.toString());
 
                             animal.add(new Animal(value, item));
                         }catch (JSONException e){
