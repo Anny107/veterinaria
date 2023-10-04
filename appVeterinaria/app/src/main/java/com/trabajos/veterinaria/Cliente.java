@@ -109,7 +109,6 @@ public class Cliente extends AppCompatActivity {
         dialogo.setMessage("¿Está seguro de guardar los datos?");
         dialogo.setCancelable(false);
 
-        //Aceptar / cancelar
         dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -122,7 +121,6 @@ public class Cliente extends AppCompatActivity {
 
             }
         });
-        //Mostrar diálogo
         dialogo.show();
     }
     private  void mostrarMensaje(String mensaje){
